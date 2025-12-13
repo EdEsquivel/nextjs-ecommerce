@@ -13,5 +13,12 @@ export default async function ProductDetailPage({ params }: Props) {
     return <h1>Product not found</h1>;
   }
 
-  return <h1>{product.name}</h1>;
+  return (
+    <>
+    <h1>{product.name}</h1>
+    <p>Price: ${product.price}</p>
+    <h3>Description</h3>
+    <p>{product.description}</p>
+    </>
+  );
 }
