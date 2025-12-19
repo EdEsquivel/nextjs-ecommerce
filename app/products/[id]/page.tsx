@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { products } from "@/app/product-data";
 
 type Props = {
