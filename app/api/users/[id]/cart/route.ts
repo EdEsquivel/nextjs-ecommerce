@@ -13,7 +13,7 @@ export async function GET(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params; // 👈 FIXED
+  const { id } = await context.params;
 
   const productIds = carts[id];
 
@@ -33,3 +33,24 @@ export async function GET(
     headers: { "Content-Type": "application/json" },
   });
 }
+
+type CartBody = {
+  productId: string;
+};
+
+export async function POST( request: NextRequest,
+  context: { params: Promise<{ id: string }> }) {
+    const { id } = await context.params;
+    const body: CartBody = await request.json();
+    const productId = body.productId;
+
+    carts[id] = carts[id] ? carts[id].concat(productId) : [productId];
+    const cartProducts = carts[id]
+      .map(pid => products.find(p => p.id === pid))
+      .filter(Boolean);
+
+    return new Response(JSON.stringify(cartProducts), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
